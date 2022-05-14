@@ -27,22 +27,43 @@ public class MainController {
         this.permissionService = permissionService;
     }
 
+    /**
+     * Giriş ekranı
+     * @return index.html
+     */
     @GetMapping("/")
     public String login(){
         return "index";
     }
 
+    /**
+     * Kimlik doğrulama sonrası açılacak sayfa
+     * @param model kullanıcı bilgilerini gönderen sınıf
+     * @param principal kimlik doğrulaması yapan kullanıcıya ait bilgiler
+     * @return main.html
+     */
     @GetMapping("/main")
     public String mainPage(Model model,Principal principal){
+        //Spring security ile authenticate olmuş person bulunur.
         Person temp= personService.findByUsername(principal.getName());
+        /**
+         * Giriş yapan kullanıcının rolü MANAGER ise ona bağlı çalışanların izin bilgileri liste
+         * olarak model nesnesine eklenir
+         */
         if(temp.getRole().equals(Role.ROLE_MANAGER)){
             List<Permission> permissions= personService.findByManager((Manager)temp).stream().map(e->e.getPermissions()).findAny().get();
             model.addAttribute("permissionList",permissions);
         }
-        model.addAttribute("person",personService.findByUsername(principal.getName()));
+        model.addAttribute("person",temp);
         return "main";
     }
 
+    /**
+     * İzin isteği sayfasına yönlendirir
+     * @param model
+     * @param principal
+     * @return permission.html
+     */
     @GetMapping("/permission")
     public String permission(Model model,Principal principal){
         model.addAttribute("permission",new Permission());
@@ -50,13 +71,5 @@ public class MainController {
         return "permission";
     }
 
-    @PostMapping("/permission")
-    public String savePermission(@ModelAttribute("permission") Permission permission ,Model model,Principal principal){
-        Person temp=personService.findByUsername(principal.getName());
-        permission.setPerson(temp);
-        permission.setPermissionStatus("BEKLEMEDE");
-        permissionService.savePermisson(permission);
-        model.addAttribute("person",temp);
-        return "redirect:main";
-    }
+
 }

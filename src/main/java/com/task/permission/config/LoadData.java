@@ -21,6 +21,9 @@ public class LoadData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        /**
+         * Rastgele çalışan ve yönetici bilgilerinin db'ye kaydedilmesi için oluşturulmuş bilgiler
+         */
         Employee employee=new Employee();
         employee.setUsername("calisan1");
         employee.setPassword("test1");

@@ -6,12 +6,20 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Person {
+    /**
+     * Employee ve manager sınıfları Person sınıfından türetilmiştir.
+     * Dolaysıyla her iki sınıfın ortak alanları Person sınıfında ele alınmıştır.
+     * Bu sınıfta giriş bilgileri ve kullanıcıya ait izin bilgilerinin OneToMany ilişkisi ile
+     * belirtilmesi aradaki ilişkinin (foreign key) kurulması sağlanmıştır.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String username;
     private String password;
+
+    //Spring security tarafından filtreleme işlemlerinde kullanılmak üzere rol tanımı yapılmıştır.
     private Role role;
 
     @OneToMany(mappedBy = "person",cascade = CascadeType.ALL,fetch = FetchType.EAGER)

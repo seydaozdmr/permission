@@ -9,9 +9,15 @@ import java.util.List;
 @Entity
 public class Manager extends Person {
 
+    /**
+     * Yöneticiye ait bilgiler
+     */
     private String name;
     private String surName;
 
+    /**
+     * Yöneticinin altında çalışan çalışanların arasındaki ilişkinin kurulduğu alan
+     */
     @OneToMany(mappedBy = "manager",cascade = CascadeType.ALL)
     private List<Employee> employeeList=new ArrayList<>();
 

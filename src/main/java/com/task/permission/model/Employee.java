@@ -6,10 +6,18 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Employee extends Person {
+    /**
+     * Çalışana ait bilgilerin (alanların) tutulduğu sınıf, Person sınıfından extend edilmiştir.
+     *
+     */
     private String name;
     private String surName;
     private String title;
 
+    /**
+     * Bir manager'ın altında çalışan pek çok çalışan olabilir bu ilişki OneToMany (Manager)
+     * ManyToOne(Employee) sınıflarında kurulmuştur.
+     */
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Manager manager;

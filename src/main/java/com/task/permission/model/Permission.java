@@ -4,10 +4,17 @@ import javax.persistence.*;
 
 @Entity
 public class Permission {
+    /**
+     * İzin bilgilerinin tutulduğu sınıf
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * Bir kullanıcının pek çok izni olabilir dolaysıyla Person sınıfındaki OneToMany
+     * annotasyonun karşılığını oluşturan ManyToOne annotation'ı.
+     */
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;

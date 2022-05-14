@@ -17,19 +17,37 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
+    /**
+     * Bütün kullanıcıları getiren method
+     * @return
+     */
     public List<Person> findAll(){
         return personRepository.findAll();
     }
 
+    /**
+     * Birden çok kullanıcıyı kaydeden method
+     * @param personList
+     */
     public void saveAll(List<Person> personList){
         personRepository.saveAll(personList);
     }
 
+    /**
+     * Kullanıcı adına göre bir kullanıcının db'den bulunması
+     * @param username
+     * @return Person
+     */
     public Person findByUsername(String username){
         return personRepository.findByUsername(username)
                 .orElseThrow(()-> new NoSuchElementException(username+" isimli eleman bulunamamıştır"));
     }
 
+    /**
+     * Bir yöneticiye bağlı olan tüm çalışanların db'den getirilmesi
+     * @param manager
+     * @return
+     */
     public List<Employee> findByManager(Manager manager){
         return personRepository.findByManager(manager);
     }
